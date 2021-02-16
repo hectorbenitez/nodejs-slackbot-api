@@ -3,9 +3,8 @@ const Schema = mongoose.Schema;
 
 const UserSurveyAnswersSchema = new Schema(
   {
-    userId: { type: String },
     user: { type: Schema.Types.ObjectId, ref: "User" },
-    sourveyId: { type: String },
+    sourvey: { type: Schema.Types.ObjectId, ref: "Survey" },
     isCompleted: { type: Boolean },
     questions: [
       {

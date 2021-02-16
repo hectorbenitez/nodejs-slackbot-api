@@ -7,7 +7,7 @@ const SurveySchema = new Schema(
     questions: [
       {
         question: { type: String },
-        answers: [{ answer: { type: String } }],
+        answers: [{ type: String }],
       },
     ],
   },
