@@ -1,7 +1,8 @@
 const { Router } = require("express");
 const surveyRouter = Router();
-const { getAllSurveys } = require('../controller/survey.controller')
+const { getAllSurveys, createSurvey } = require('../controller/survey.controller')
 
 surveyRouter.get("/all", getAllSurveys);
+surveyRouter.post("/", createSurvey)
 
 module.exports = surveyRouter;
