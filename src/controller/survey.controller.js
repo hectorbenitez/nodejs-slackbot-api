@@ -20,7 +20,7 @@ const createSurvey = (req, res) => {
           //res.send("Survey incorrect");
           return console.error(err);
         }
-        console.log("Survey saved succussfully!");
+        console.log("Survey saved successfully!");
       });
       res.json(newSurvey).status(201);
     } catch (error) {
