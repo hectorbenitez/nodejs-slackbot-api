@@ -5,7 +5,7 @@ const { slackSignin } = require('../controller/auth.controller');
 const router = Router();
 
 router.post('/slack', [
-    check('id_token', 'id_ token is necesary').not().isEmpty(),
+    check('id_token', 'id_token is necesary').not().isEmpty()
 ], slackSignin);
 
 module.exports = router;
