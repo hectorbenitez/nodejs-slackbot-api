@@ -2,7 +2,9 @@
 
 const slackSignin = (req, res) => {
     // slack token from client
-    const { id_token } = req.body;
+    const { code } = req.body;
+
+   
 
     res.json({
         msg: 'Everything is okey',
