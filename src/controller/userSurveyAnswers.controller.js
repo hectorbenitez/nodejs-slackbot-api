@@ -13,22 +13,21 @@ const getAllSurveysByUser = async (req, res) => {
   }
 };
 
-
 /* body
   {
-    "_idUser":      ,
-    "_idSurvey":
+    "userId":      ,
+    "surveyName":
   }
   */
 const startSurvey = async (req, res) => {
   try {
-    const { _idUser, _idSurvey } = req.body;
+    const { userId, surveyName } = req.body;
 
-    const user = await User.findById(_idUser);
-    const survey = await Survey.findById(_idSurvey);
+    const user = await User.findOne({ userId: userId });
+    const survey = await Survey.findOne({ surveyName: surveyName });
     const questions = survey.questions;
 
-    let user_questions = questions.map(({question}) => {
+    let user_questions = questions.map(({ question }) => {
       return { question, answer: "" };
     });
 
@@ -39,15 +38,13 @@ const startSurvey = async (req, res) => {
     };
     const newUserSurvey = new UserSurveyAnswers(userSurvey);
 
-    console.log(newUserSurvey)
-    console.log(req.query);
     newUserSurvey.save((err, survey) => {
-        if (err) {
-          return console.error(err);
-        }
-        console.log("User Survey started successfully!");
-      });
-      res.json(newUserSurvey).status(201); 
+      if (err) {
+        return console.error(err);
+      }
+      console.log("User Survey started successfully!");
+    });
+    res.json(newUserSurvey).status(201);
   } catch (error) {
     console.error("User surver started error: ", error);
     res.status(500).send("Internal Server Error");
