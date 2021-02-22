@@ -51,7 +51,52 @@ const startSurvey = async (req, res) => {
   }
 };
 
+/* body
+  {
+    "_idUserSurveyAnswers":      ,
+    "_idQuestion":
+    "answer":
+  }
+  */
+const saveAnswer = async (req, res) => {
+  try {
+    const { _idUserSurveyAnswers, _idQuestion, answer } = req.body;
+    console.log(req.body)
+    const userSurveyAnswers = await UserSurveyAnswers.findById(
+      _idUserSurveyAnswers
+    );
+
+    console.log(userSurveyAnswers)
+
+    const { questions } = userSurveyAnswers;
+
+    console.log(questions)
+
+    questions.forEach((question, index) => {
+      if(question._id==_idQuestion){
+        question.answer = answer;
+        if(index+1===questions.length){
+            userSurveyAnswers.isCompleted=true;
+        }
+      }
+    });
+
+   
+    userSurveyAnswers.save((err) => {
+      if (err) {
+        return console.error(err);
+      }
+      console.log("Answer saved successfully!");
+    });
+    res.json(userSurveyAnswers).status(200);
+  } catch (error) {
+    console.error("Answer saved error: ", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
 module.exports = {
   getAllSurveysByUser,
   startSurvey,
+  saveAnswer,
 };
