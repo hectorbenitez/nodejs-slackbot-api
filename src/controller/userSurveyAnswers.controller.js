@@ -23,7 +23,22 @@ const startSurvey = async (req, res) => {
   try {
     const { userId, surveyName } = req.body;
 
-    const user = await User.findOne({ userId: userId });
+    let user = await User.findOne({ userId: userId });
+    
+    if(!user){
+      const newUser = new User({
+        userId
+      })
+
+      
+      newUser.save((err) => {
+        if (err) {
+          return console.error(err);
+        }
+        console.log("new User saved successfully!");
+      });
+      user = newUser;
+    }
     const survey = await Survey.findOne({ surveyName: surveyName });
     const questions = survey.questions;
 
