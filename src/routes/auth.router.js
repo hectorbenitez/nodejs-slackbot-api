@@ -4,8 +4,12 @@ const { slackSignin } = require('../controller/auth.controller');
 
 const router = Router();
 
+router.get('/slack', (req, res) => {
+    res.send('redirecting')
+})
+
 router.post('/slack', [
-    check('id_token', 'id_token is necesary').not().isEmpty()
+    check('code', 'code is necesary').not().isEmpty()
 ], slackSignin);
 
 module.exports = router;
