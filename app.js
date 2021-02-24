@@ -7,6 +7,8 @@ const app = express();
 
 const surveyRouter = require("./src/routes/survey.router");
 const authRouter = require("./src/routes/auth.router");
+const userSurveyAnswersRouter = require("./src/routes/userSurveyAnswers.router");
+
 
 // Mongoose connection
 mongoose.connect(process.env.MONGODB_URI, {
@@ -24,6 +26,8 @@ app.use(express.json());
 //routes
 app.use("/api/v1/survey", surveyRouter);
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/surveyAnswers", userSurveyAnswersRouter);
+
 
 //Starting the server
 app.listen(app.get("port"), () => {
