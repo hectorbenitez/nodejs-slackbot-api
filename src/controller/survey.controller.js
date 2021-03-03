@@ -1,4 +1,3 @@
-const { sync } = require("touch");
 const Survey = require("../models/survey.model");
 
 const getAllSurveys = async (req, res) => {

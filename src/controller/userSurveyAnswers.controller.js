@@ -1,4 +1,3 @@
-const { sync } = require("touch");
 const UserSurveyAnswers = require("../models/userSurveyAnswers.model");
 const Survey = require("../models/survey.model");
 const User = require("../models/user.model");
