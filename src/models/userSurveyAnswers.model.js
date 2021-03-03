@@ -4,8 +4,8 @@ const Schema = mongoose.Schema;
 const UserSurveyAnswersSchema = new Schema(
   {
     user: { type: Schema.Types.ObjectId, ref: "User" },
-    sourvey: { type: Schema.Types.ObjectId, ref: "Survey" },
-    isCompleted: { type: Boolean },
+    survey: { type: Schema.Types.ObjectId, ref: "Survey" },
+    isCompleted: { type: Boolean, default: false},
     questions: [
       {
         question: { type: String },
