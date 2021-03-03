@@ -23,7 +23,22 @@ const startSurvey = async (req, res) => {
   try {
     const { userId, surveyName } = req.body;
 
-    const user = await User.findOne({ userId: userId });
+    let user = await User.findOne({ userId: userId });
+    
+    if(!user){
+      const newUser = new User({
+        userId
+      })
+
+      
+      newUser.save((err) => {
+        if (err) {
+          return console.error(err);
+        }
+        console.log("new User saved successfully!");
+      });
+      user = newUser;
+    }
     const survey = await Survey.findOne({ surveyName: surveyName });
     const questions = survey.questions;
 
@@ -51,7 +66,52 @@ const startSurvey = async (req, res) => {
   }
 };
 
+/* body
+  {
+    "_idUserSurveyAnswers":      ,
+    "_idQuestion":
+    "answer":
+  }
+  */
+const saveAnswer = async (req, res) => {
+  try {
+    const { _idUserSurveyAnswers, _idQuestion, answer } = req.body;
+    console.log(req.body)
+    const userSurveyAnswers = await UserSurveyAnswers.findById(
+      _idUserSurveyAnswers
+    );
+
+    console.log(userSurveyAnswers)
+
+    const { questions } = userSurveyAnswers;
+
+    console.log(questions)
+
+    questions.forEach((question, index) => {
+      if(question._id==_idQuestion){
+        question.answer = answer;
+        if(index+1===questions.length){
+            userSurveyAnswers.isCompleted=true;
+        }
+      }
+    });
+
+   
+    userSurveyAnswers.save((err) => {
+      if (err) {
+        return console.error(err);
+      }
+      console.log("Answer saved successfully!");
+    });
+    res.json(userSurveyAnswers).status(200);
+  } catch (error) {
+    console.error("Answer saved error: ", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
 module.exports = {
   getAllSurveysByUser,
   startSurvey,
+  saveAnswer,
 };
